@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
-import Balance from "../components/Balance";
+import { COLORS } from "../constants/COLORS";
 
-export default function HomeScreen() {
+export default function AddExpenseScreen() {
   return (
     <View style={styles.container}>
-      <Balance currency="лв" />
+      <Text>AddExpenseScreen</Text>
     </View>
   );
 }
@@ -13,6 +13,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.blue,
   },
 });

@@ -1,12 +1,15 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { COLORS } from "./constants/COLORS";
 
 import HomeScreen from "./screens/HomeScreen";
 import IconButton from "./components/UI/IconButton";
-import { COLORS } from "./constants/COLORS";
+import AddExpenseScreen from "./screens/AddExpenseScreen";
 
+const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
 
 export default function App() {
@@ -14,11 +17,34 @@ export default function App() {
     <>
       <StatusBar style="dark" />
       <NavigationContainer>
+        {/* <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: #22eb9b },
+            headerTintColor: "white",
+          }}
+        > */}
+        {/* THE HOME SCREEN */}
+        {/* <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+            options={{
+              headerShown: false,
+            }}
+          /> */}
+        {/* ADD EXPENSES SCREEN */}
+        {/* <Stack.Screen
+            name="AddScreen"
+            component={AddExpenseScreen}
+            options={{
+              presentation: "modal",
+            }}
+          />
+        </Stack.Navigator> */}
         <Bottom.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: COLORS.peach },
+            headerStyle: { backgroundColor: "#80db0a" },
             headerTintColor: "white",
-            tabBarStyle: { backgroundColor: COLORS.peach },
+            tabBarStyle: { backgroundColor: "#80db0a" },
             tabBarActiveTintColor: "white",
           }}
         >
@@ -26,10 +52,20 @@ export default function App() {
             name="HomeScreen"
             component={HomeScreen}
             options={{
-              title: "Home",
+              title: "Начало",
               // tabBarLabel: "Home Screen",
               tabBarIcon: ({ color, size }) => (
                 <IconButton icon="home" color={color} size={size} />
+              ),
+            }}
+          />
+          <Bottom.Screen
+            name="AddExpenseScreen"
+            component={AddExpenseScreen}
+            options={{
+              title: "Добави",
+              tabBarIcon: ({ color, size }) => (
+                <IconButton icon="add" color={color} size={size} />
               ),
             }}
           />
