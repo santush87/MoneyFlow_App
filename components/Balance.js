@@ -1,26 +1,30 @@
 import { View, Text, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import IncomeOutcome from "./IncomeOutcome";
 
-export default function Balance({ amount, currency }) {
+export default function Balance({ amount, currency, income, outcome }) {
   return (
-    <View>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View style={styles.balance}>
         <Text style={styles.text}>Месечен баланс</Text>
         <Text style={styles.amount}>
           {amount} {currency}
         </Text>
       </View>
+      <IncomeOutcome income={income} outcome={outcome} currency={currency} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // flexDirection: "row",
-    // justifyContent: "space-between",
-    marginTop: 30,
-    padding: 14,
+    marginTop: 20,
+    padding: 10,
     borderRadius: 20,
-    // borderWidth: 1,
+    backgroundColor: "#c9c9f5",
+  },
+  balance: {
+    paddingBottom: 20,
     backgroundColor: "#c9c9f5",
     alignItems: "center",
   },
@@ -30,5 +34,7 @@ const styles = StyleSheet.create({
   },
   amount: {
     fontSize: 24,
+    fontWeight: "bold",
+    color: "#1f4202",
   },
 });

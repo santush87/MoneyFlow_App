@@ -8,7 +8,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Welcome name={"Иван"} />
-      <Balance amount={251.36} currency="лв" />
+      <Balance amount={251.36} currency="лв" income={54.64} outcome={94.18} />
       <ExpensesChart />
     </View>
   );
