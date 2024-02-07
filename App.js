@@ -6,8 +6,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { COLORS } from "./constants/COLORS";
 
 import HomeScreen from "./screens/HomeScreen";
-import IconButton from "./components/UI/IconButton";
-import AddExpenseScreen from "./screens/AddExpenseScreen";
+// import IconButton from "./components/ui/IconButton";
+// import AddExpenseScreen from "./screens/AddExpenseScreen";
+import Login from "./screens/Login";
 
 const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
@@ -15,36 +16,45 @@ const Bottom = createBottomTabNavigator();
 export default function App() {
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <NavigationContainer>
-        {/* <Stack.Navigator
-          screenOptions={{
-            headerStyle: { backgroundColor: #22eb9b },
-            headerTintColor: "white",
-          }}
-        > */}
-        {/* THE HOME SCREEN */}
-        {/* <Stack.Screen
+        <Stack.Navigator
+        // screenOptions={{
+        //   headerStyle: { backgroundColor: COLORS.darkgray },
+        //   headerTintColor: "white",
+        //   contentStyle: COLORS.darkgray,
+        // }}
+        >
+          {/* <Stack.Screen
+            name="login"
+            component={Login}
+            options={{
+              headerShown: false,
+            }}
+          /> */}
+
+          {/* THE HOME SCREEN */}
+          <Stack.Screen
             name="HomeScreen"
             component={HomeScreen}
             options={{
               headerShown: false,
             }}
-          /> */}
-        {/* ADD EXPENSES SCREEN */}
-        {/* <Stack.Screen
+          />
+          {/* ADD EXPENSES SCREEN */}
+          {/* <Stack.Screen
             name="AddScreen"
             component={AddExpenseScreen}
             options={{
               presentation: "modal",
             }}
-          />
-        </Stack.Navigator> */}
-        <Bottom.Navigator
+          /> */}
+        </Stack.Navigator>
+        {/* <Bottom.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: "#80db0a" },
+            headerStyle: { backgroundColor: "#8888e8" },
             headerTintColor: "white",
-            tabBarStyle: { backgroundColor: "#80db0a" },
+            tabBarStyle: { backgroundColor: "#8888e8" },
             tabBarActiveTintColor: "white",
           }}
         >
@@ -69,17 +79,8 @@ export default function App() {
               ),
             }}
           />
-        </Bottom.Navigator>
+        </Bottom.Navigator> */}
       </NavigationContainer>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
