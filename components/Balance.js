@@ -3,11 +3,24 @@ import { Ionicons } from "@expo/vector-icons";
 import IncomeOutcome from "./IncomeOutcome";
 
 export default function Balance({ amount, currency, income, outcome }) {
+  const theAmount = (
+    <Text style={styles.amountPositive}>
+      {amount} {currency}
+    </Text>
+  );
+
+  if (amount <= 0) {
+    theAmount = (
+      <Text style={styles.amountNegative}>
+        {amount} {currency}
+      </Text>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.balance}>
         <Text style={styles.text}>Месечен баланс</Text>
-        <Text style={styles.amount}>
+        <Text style={styles.amountPositive}>
           {amount} {currency}
         </Text>
       </View>
@@ -32,9 +45,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingBottom: 5,
   },
-  amount: {
+  amountPositive: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#1f4202",
+    color: "#50ab05",
+  },
+  amountNegative: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "red",
   },
 });

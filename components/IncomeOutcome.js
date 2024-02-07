@@ -1,10 +1,15 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function IncomeOutcome({ income, outcome, currency }) {
   return (
     <View style={styles.container}>
-      <View style={styles.innerContainer}>
+      <Pressable
+        style={({ pressed }) => [
+          styles.innerContainer,
+          pressed && styles.pressed,
+        ]}
+      >
         <View style={styles.inAndOut}>
           <Ionicons name="arrow-down" size={24} color="green" />
           <Text>Приход</Text>
@@ -12,8 +17,13 @@ export default function IncomeOutcome({ income, outcome, currency }) {
         <Text style={styles.textIncome}>
           {income} {currency}
         </Text>
-      </View>
-      <View style={styles.innerContainer}>
+      </Pressable>
+      <Pressable
+        style={({ pressed }) => [
+          styles.innerContainer,
+          pressed && styles.pressed,
+        ]}
+      >
         <View style={styles.inAndOut}>
           <Ionicons name="arrow-up" size={24} color="red" />
           <Text>Разход</Text>
@@ -21,7 +31,7 @@ export default function IncomeOutcome({ income, outcome, currency }) {
         <Text style={styles.textOutcome}>
           {outcome} {currency}
         </Text>
-      </View>
+      </Pressable>
     </View>
   );
 }
@@ -47,5 +57,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "red",
+  },
+  pressed: {
+    opacity: 0.7,
   },
 });
