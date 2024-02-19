@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "~19.0.1",
+    "@react-native-community/art": "^1.2.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native-stack": "^6.9.17",
     "expo": "~50.0.6",
@@ -17,6 +18,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.73.4",
+    "react-native-pie": "^1.1.2",
     "react-native-reanimated": "~3.6.2",
     "react-native-web": "~0.19.6",
     "victory-pie": "^36.8.2"

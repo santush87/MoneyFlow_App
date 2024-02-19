@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "../../constants/COLORS";
+import PieChart from "../PieChart";
 
 export default function MyExpenses() {
   return (
@@ -7,6 +8,9 @@ export default function MyExpenses() {
       <View style={styles.innerContainer}>
         <Text style={styles.textExpense}>РАЗХОДИ</Text>
         <Text style={styles.textDate}>Март 2024</Text>
+      </View>
+      <View>
+        <PieChart />
       </View>
     </View>
   );

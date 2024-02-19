@@ -1,8 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import Balance from "../components/Balance";
-import ExpensesChart from "../components/Expenses/ExpensesChart";
 import Welcome from "../components/Welcome";
-import { COLORS } from "../constants/COLORS";
 import MyExpenses from "../components/Expenses/MyExpenses";
 
 export default function HomeScreen() {
