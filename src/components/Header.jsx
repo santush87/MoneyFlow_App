@@ -1,7 +1,5 @@
-// import { Link } from "react-router-dom";
-// import "./Header.css";
-// import TheLogo from '../../Logo.jpg'
-// import Navbar from "../Navbar/Navbar";
+import { Link } from "react-router-dom";
+import TheLogo from "../Logo.jpg";
 
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
@@ -69,14 +67,11 @@ export default function Header() {
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
+        {/* LOGO */}
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
-            />
+            <span className="sr-only">Money Flow</span>
+            <img className="h-8 w-auto" src={TheLogo} alt="" />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -90,7 +85,7 @@ export default function Header() {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Popover className="relative">
+          {/* <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
               Product
               <ChevronDownIcon
@@ -151,22 +146,34 @@ export default function Header() {
                 </div>
               </Popover.Panel>
             </Transition>
-          </Popover>
+          </Popover> */}
 
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Features
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Marketplace
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Company
-          </a>
+          <Link
+            to="/"
+            className="text-lg font-semibold leading-6 text-gray-900"
+          >
+            Home
+          </Link>
+          <Link
+            to="/login"
+            className="text-lg font-semibold leading-6 text-gray-900"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="text-lg font-semibold leading-6 text-gray-900"
+          >
+            Register
+          </Link>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <Link
+            to="/login"
+            className="text-lg font-semibold leading-6 text-gray-900"
+          >
             Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          </Link>
         </div>
       </nav>
       <Dialog
