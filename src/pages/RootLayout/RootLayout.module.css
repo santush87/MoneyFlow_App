@@ -1,0 +1,9 @@
+main {
+    height: 80vh;
+    /* background: rgb(180, 58, 111);
+    background: linear-gradient(90deg, rgba(180, 58, 111, 1) 0%, rgba(29, 101, 253, 1) 52%, rgba(252, 176, 69, 1) 100%); */
+    /* background: rgb(98, 186, 4);
+    background: linear-gradient(0deg, rgb(97, 222, 83) 0%, rgba(0, 87, 10, 1) 100%); */
+    background: rgb(63, 94, 251);
+    background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(77, 77, 77, 1) 100%);
+}

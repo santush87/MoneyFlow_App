@@ -1,12 +1,8 @@
-// import './App.css'
-// import './styles/typography.css'
-import './styles/reset.css'
-
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import Home from './pages/Home/Home.tsx'
 import Login from './pages/Login/Login.tsx'
-import RootLayout from './pages/RootLayout.tsx'
+import RootLayout from './pages/RootLayout/RootLayout.tsx'
 import Register from './pages/Register/Register.tsx'
 
 const router = createBrowserRouter([
