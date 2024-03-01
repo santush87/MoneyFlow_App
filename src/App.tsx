@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
-import Home from './pages/Home/Home.tsx'
-import Login from './pages/Login/Login.tsx'
-import RootLayout from './pages/RootLayout/RootLayout.tsx'
-import Register from './pages/Register/Register.tsx'
+import Home from './pages/Home.tsx'
+import Login from './pages/Login.tsx'
+import RootLayout from './pages/RootLayout.tsx'
+import Register from './pages/Register.tsx'
 
 const router = createBrowserRouter([
   {
