@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import TheLogo from "../Logo.jpg";
-
+import { TEXT_COLOR_HEADER_FOOTER, BACKGROUND_COLOR_HEADER_FOOTER } from '../constants/colors.js'
 import { Fragment, useState } from "react";
 import {
   Dialog,
@@ -69,7 +69,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-slate-300">
+    <header className={BACKGROUND_COLOR_HEADER_FOOTER}>
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
@@ -87,7 +87,7 @@ export default function Header() {
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 ${TEXT_COLOR_HEADER_FOOTER}`}
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
@@ -165,7 +165,7 @@ export default function Header() {
 
           <Link
             to="/"
-            className="text-lg font-semibold leading-6 text-gray-900"
+            className={`text-lg font-semibold leading-6 ${TEXT_COLOR_HEADER_FOOTER}`}
           >
             Home
           </Link>
@@ -177,7 +177,7 @@ export default function Header() {
           </Link> */}
           <Link
             to="/register"
-            className="text-lg font-semibold leading-6 text-gray-900"
+            className={`text-lg font-semibold leading-6 ${TEXT_COLOR_HEADER_FOOTER}`}
           >
             Register
           </Link>
@@ -187,7 +187,7 @@ export default function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
             to="/login"
-            className="text-lg font-semibold leading-6 text-gray-900"
+            className={`text-lg font-semibold leading-6 ${TEXT_COLOR_HEADER_FOOTER}`}
           >
             Log in <span aria-hidden="true">&rarr;</span>
           </Link>
