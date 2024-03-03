@@ -1,4 +1,4 @@
-import IncomeOutcomeBox from "../components/IncomeOutcome/IncomeOutcomeBox.tsx"
+import ViewHeaderBox from "../components/IncomeOutcome/ViewHeaderBox.tsx"
 
 const person = {
     name: 'Leslie Alexander',
@@ -10,23 +10,15 @@ const person = {
 export default function Home() {
     return (
         <div className="flex flex-col items-center">
-            <div className="max-w-3xl min-w-96 bg-slate-800 mt-4 rounded-2xl">
-                <div className="flex items-center justify-center gap-x-6 py-6">
+            <div className="max-w-3xl min-w-96 bg-slate-800 mt-4 rounded-3xl py-4 px-6">
+                <div className="flex items-center justify-evenly pb-2">
                     <img className="h-28 w-28 rounded-full" src={person.imageUrl} alt="Person's image" />
                     <div>
-                        <h3 className="text-base font-semibold leading-7 tracking-tight text-white">{person.name}</h3>
-                        {/* <p className="text-sm font-semibold leading-6 text-indigo-600">{person.role}</p> */}
+                        <p className="text-md font-semibold leading-6 text-indigo-300">Welcome,</p>
+                        <h3 className="text-base font-semibold leading-7 tracking-tight text-indigo-500 ">{person.name}</h3>
                     </div>
                 </div>
-                <div className="flex flex-col flex-auto justify-center items-center gap-5">
-                    <div className="max-w-64">
-                        <IncomeOutcomeBox amountType={"income"} description={"salary"} value={500} />
-                    </div>
-                    <div className="flex justify-around gap-5">
-                        <IncomeOutcomeBox amountType={"income"} description={"salary"} value={1500} />
-                        <IncomeOutcomeBox amountType={"outcome"} description={"salary"} value={1000} />
-                    </div>
-                </div>
+                <ViewHeaderBox income={1945.34} outcome={1142.15} currency={'лв'} />
             </div>
         </div>
     )
