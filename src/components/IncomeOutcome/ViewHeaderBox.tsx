@@ -17,8 +17,8 @@ export default function ViewHeaderBox({ income, outcome, currency }: SumOverview
 
     return (
         <>
-            <div className="flex flex-col flex-auto justify-center items-center gap-5">
-                <div className="flex flex-col justify-center items-center border-2 rounded-3xl min-w-8 text-white font-bold py-3 px-4">
+            <div className="flex flex-col flex-auto justify-center py-4 px-6 items-center rounded-3xl bg-slate-800 gap-5">
+                <div className="flex flex-col bg-indigo-900 justify-center items-center rounded-3xl min-w-8 text-white font-bold py-3 px-4">
                     <p className={`text-3xl ${color}`}>{moneyDif.toFixed(2)} {currency}</p>
                     <p className={`text-xl text-indigo-300`}>Available</p>
                 </div>

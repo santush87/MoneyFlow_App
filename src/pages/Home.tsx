@@ -1,5 +1,6 @@
 import ViewHeaderBox from "../components/IncomeOutcome/ViewHeaderBox.tsx"
 
+
 const person = {
     name: 'Leslie Alexander',
     role: 'Co-Founder / CEO',
@@ -10,11 +11,11 @@ const person = {
 export default function Home() {
     return (
         <div className="flex flex-col items-center">
-            <div className="max-w-3xl min-w-96 bg-slate-800 mt-4 rounded-3xl py-4 px-6">
-                <div className="flex items-center justify-evenly pb-2">
+            <div className="lg:flex max-w-3xl min-w-96  mt-4 py-4 px-6 gap-5">
+                <div className="flex lg:flex-col items-center rounded-3xl justify-evenly py-4 px-6 bg-slate-800">
                     <img className="h-28 w-28 rounded-full" src={person.imageUrl} alt="Person's image" />
                     <div>
-                        <p className="text-md font-semibold leading-6 text-indigo-300">Welcome,</p>
+                        <p className="text-md font-semibold leading-6 text-indigo-300 text-center">Welcome,</p>
                         <h3 className="text-base font-semibold leading-7 tracking-tight text-indigo-500 ">{person.name}</h3>
                     </div>
                 </div>
