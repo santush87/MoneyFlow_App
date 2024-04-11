@@ -12,4 +12,10 @@ import org.hibernate.annotations.GenericGenerator;
 @Getter
 public class CategoryEntity extends BaseEntity{
 
+    @Column(unique = true, nullable = false)
+    @Size(min = 2, max = 50)
+    private String name;
+
+    @Column
+    private String description;
 }
