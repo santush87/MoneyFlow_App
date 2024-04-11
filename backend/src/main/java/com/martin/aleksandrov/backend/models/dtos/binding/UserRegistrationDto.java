@@ -1,4 +1,4 @@
-package com.martin.aleksandrov.backend.models.dtos;
+package com.martin.aleksandrov.backend.models.dtos.binding;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
