@@ -1,9 +1,7 @@
 package com.martin.aleksandrov.backend.models.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,13 +10,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "category_type")
 @Setter
 @Getter
-public class CategoryEntity {
+public class CategoryEntity extends BaseEntity{
 
-    @Id
-    @GeneratedValue(generator = "uuid-string")
-    @GenericGenerator(name = "uuid-string",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
-
-    private String name;
 }

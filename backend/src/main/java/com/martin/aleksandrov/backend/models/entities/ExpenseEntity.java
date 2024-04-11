@@ -10,19 +10,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "expenses")
 @Setter
 @Getter
-public class ExpenseEntity {
-
-    @Id
-    @GeneratedValue(generator = "uuid-string")
-    @GenericGenerator(name = "uuid-string",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
-
-    @Column
-    @Size(min = 2, max = 50)
-    private String name;
-
-    @Column
-    private String description;
+public class ExpenseEntity extends BaseEntity{
 
 }
