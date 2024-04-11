@@ -1,4 +1,7 @@
 import ViewHeaderBox from "../components/IncomeOutcome/ViewHeaderBox.tsx"
+import TwoLevelPieChart from "../components/charts/TwoLevelPieChart.tsx"
+import ChartsTwo from "../components/charts/ChartsTwo.tsx"
+import Donut from "../components/charts/Donut.tsx"
 
 
 const person = {
@@ -20,6 +23,11 @@ export default function Home() {
                     </div>
                 </div>
                 <ViewHeaderBox income={1945.34} outcome={1142.15} currency={'лв'} />
+            </div>
+            <TwoLevelPieChart />
+            <ChartsTwo />
+            <div className="flex flex-auto">
+                <Donut />
             </div>
         </div>
     )
