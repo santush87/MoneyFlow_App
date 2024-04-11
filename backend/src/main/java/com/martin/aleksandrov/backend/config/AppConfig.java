@@ -15,13 +15,8 @@ public class AppConfig {
     @Bean
     public ModelMapper modelMapper() {
         final ModelMapper mapper = new ModelMapper();
-        mapper.addConverter(new Converter<String, LocalDate>() {
-            @Override
-            public LocalDate convert(MappingContext<String, LocalDate> context) {
-                return LocalDate.parse(context.getSource(),
-                        DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            }
-        });
+        mapper.addConverter((Converter<String, LocalDate>) context -> LocalDate.parse(context.getSource(),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         return mapper;
     }
 }
