@@ -1,6 +1,7 @@
 package com.martin.aleksandrov.backend.services.impl;
 
-import com.martin.aleksandrov.backend.models.dtos.UserRegistrationDto;
+import com.martin.aleksandrov.backend.models.dtos.binding.UserRegistrationDto;
+import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.models.entities.UserEntity;
 import com.martin.aleksandrov.backend.models.entities.UserRoleEntity;
 import com.martin.aleksandrov.backend.models.enums.UserRole;
@@ -12,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,23 +27,31 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public boolean register(UserRegistrationDto userRegistrationDto) {
+    public UserViewDto register(UserRegistrationDto userRegistrationDto) {
         Optional<UserEntity> optionalUser = this.userRepository.findByEmail(userRegistrationDto.getEmail());
-        if (!optionalUser.isPresent()) {
-            UserEntity userToSave = this.modelMapper.map(optionalUser, UserEntity.class);
+        if (optionalUser.isEmpty()) {
+            UserEntity userToSave = this.modelMapper.map(userRegistrationDto, UserEntity.class);
             userToSave.setPassword(this.passwordEncoder.encode(userRegistrationDto.getPassword()));
             userToSave.getRoles().add(this.roleRepository.findByRole(UserRole.USER));
             if(this.userRepository.count()==0){
                 userToSave.getRoles().add(this.roleRepository.findByRole(UserRole.ADMIN));
             }
-            this.userRepository.save(userToSave);
+            UserEntity userEntity = this.userRepository.save(userToSave);
+            return this.modelMapper.map(userEntity, UserViewDto.class);
         }
-        return false;
+        return null;
     }
 
     @Override
-    public List<UserRegistrationDto> getAll() {
-        return List.of();
+    public List<UserViewDto> getAll() {
+        List<UserEntity> all = this.userRepository.findAll();
+
+        List<UserViewDto> userViewDtos = new ArrayList<>();
+        for (UserEntity user : all) {
+            UserViewDto dto = this.modelMapper.map(user, UserViewDto.class);
+            userViewDtos.add(dto);
+        }
+        return userViewDtos;
     }
 
     @Override
