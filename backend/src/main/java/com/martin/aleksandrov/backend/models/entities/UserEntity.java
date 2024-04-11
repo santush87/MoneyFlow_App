@@ -3,6 +3,7 @@ package com.martin.aleksandrov.backend.models.entities;
 import com.martin.aleksandrov.backend.models.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CurrentTimestamp;
@@ -25,9 +26,11 @@ public class UserEntity extends BaseEntity{
     private String password;
 
     @Column(nullable = false)
+    @Size(min = 2, max = 20)
     private String firstName;
 
     @Column(nullable = false)
+    @Size(min = 2, max = 20)
     private String lastName;
 
     @Column

@@ -9,6 +9,7 @@ import com.martin.aleksandrov.backend.repositories.UserRepository;
 import com.martin.aleksandrov.backend.repositories.UserRoleRepository;
 import com.martin.aleksandrov.backend.services.UserService;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,19 +28,34 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserViewDto register(UserRegistrationDto userRegistrationDto) {
+    public UserViewDto register(UserRegistrationDto userRegistrationDto) throws BadRequestException {
         Optional<UserEntity> optionalUser = this.userRepository.findByEmail(userRegistrationDto.getEmail());
-        if (optionalUser.isEmpty()) {
-            UserEntity userToSave = this.modelMapper.map(userRegistrationDto, UserEntity.class);
-            userToSave.setPassword(this.passwordEncoder.encode(userRegistrationDto.getPassword()));
-            userToSave.getRoles().add(this.roleRepository.findByRole(UserRole.USER));
-            if(this.userRepository.count()==0){
-                userToSave.getRoles().add(this.roleRepository.findByRole(UserRole.ADMIN));
-            }
-            UserEntity userEntity = this.userRepository.save(userToSave);
-            return this.modelMapper.map(userEntity, UserViewDto.class);
+        if (optionalUser.isPresent()) {
+            throw new BadRequestException("Duplicate identifier");
         }
-        return null;
+
+        if (!userRegistrationDto.getPassword().equals(userRegistrationDto.getConfirmPassword())){
+            throw new BadRequestException("Passwords do not match");
+        }
+
+        if (userRegistrationDto.getPassword().length() < 8) {
+            throw new BadRequestException("Password must be at least 8 characters");
+        }
+
+        UserEntity userToSave = this.modelMapper.map(userRegistrationDto, UserEntity.class);
+        userToSave.setPassword(this.passwordEncoder.encode(userRegistrationDto.getPassword()));
+        userToSave.getRoles().add(this.roleRepository.findByRole(UserRole.USER));
+
+        if (this.userRepository.count() == 0) {
+            userToSave.getRoles().add(this.roleRepository.findByRole(UserRole.ADMIN));
+        }
+        try {
+            UserEntity userEntity = this.userRepository.save(userToSave);
+            UserViewDto viewDto = this.modelMapper.map(userEntity, UserViewDto.class);
+            return viewDto;
+        } catch (Exception e) {
+            throw new BadRequestException("Something went wrong" + e.getMessage());
+        }
     }
 
     @Override
