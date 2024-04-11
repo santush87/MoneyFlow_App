@@ -11,6 +11,13 @@ import lombok.Setter;
 @Setter
 public class UserRegistrationDto {
 
+    @Size(min = 2, max = 20, message = "First name must be between 2 and 20 characters!")
+    private String firstName;
+
+    //    @NotBlank
+    @Size(min = 2, max = 20, message = "Last name must be between 2 and 20 characters!")
+    private String lastName;
+
     @Email
     @NotBlank(message = "Email cannot be empty!")
     private String email;
