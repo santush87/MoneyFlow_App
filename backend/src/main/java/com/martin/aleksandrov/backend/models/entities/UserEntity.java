@@ -13,6 +13,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "users")
 public class UserEntity extends BaseEntity{
 
     @Column(unique = true, nullable = false)

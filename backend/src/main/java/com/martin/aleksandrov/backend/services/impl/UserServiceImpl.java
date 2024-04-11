@@ -10,10 +10,12 @@ import com.martin.aleksandrov.backend.services.UserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -27,7 +29,6 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> optionalUser = this.userRepository.findByEmail(userRegistrationDto.getEmail());
         if (!optionalUser.isPresent()) {
             UserEntity userToSave = this.modelMapper.map(optionalUser, UserEntity.class);
-//            TODO: Add password Encoder!!!
             userToSave.setPassword(this.passwordEncoder.encode(userRegistrationDto.getPassword()));
             userToSave.getRoles().add(this.roleRepository.findByRole(UserRole.USER));
             if(this.userRepository.count()==0){
