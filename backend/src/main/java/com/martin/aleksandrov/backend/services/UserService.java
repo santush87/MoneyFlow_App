@@ -6,7 +6,6 @@ import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.models.entities.UserEntity;
 import org.apache.coyote.BadRequestException;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 import java.util.Optional;
 

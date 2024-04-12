@@ -44,7 +44,11 @@ public class UserEntity extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<UserRoleEntity> roles = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<CategoryEntity> categories;
+
     public UserEntity() {
         this.createdOn = LocalDate.now();
+        this.categories = new ArrayList<>();
     }
 }

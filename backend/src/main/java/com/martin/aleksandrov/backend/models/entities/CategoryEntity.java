@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "category_type")
@@ -18,4 +20,11 @@ public class CategoryEntity extends BaseEntity{
 
     @Column
     private String description;
+
+    @ManyToMany
+    private List<ExpenseEntity> expenses;
+
+    public CategoryEntity() {
+        this.expenses = new ArrayList<>();
+    }
 }
