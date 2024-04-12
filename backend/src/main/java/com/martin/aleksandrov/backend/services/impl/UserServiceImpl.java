@@ -1,5 +1,6 @@
 package com.martin.aleksandrov.backend.services.impl;
 
+import com.martin.aleksandrov.backend.exceptions.UserNotFoundException;
 import com.martin.aleksandrov.backend.models.dtos.binding.UserRegistrationDto;
 import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.models.entities.UserEntity;
@@ -8,12 +9,14 @@ import com.martin.aleksandrov.backend.models.enums.UserRole;
 import com.martin.aleksandrov.backend.repositories.UserRepository;
 import com.martin.aleksandrov.backend.repositories.UserRoleRepository;
 import com.martin.aleksandrov.backend.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +37,7 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("Duplicate identifier");
         }
 
-        if (!userRegistrationDto.getPassword().equals(userRegistrationDto.getConfirmPassword())){
+        if (!userRegistrationDto.getPassword().equals(userRegistrationDto.getConfirmPassword())) {
             throw new BadRequestException("Passwords do not match");
         }
 
@@ -51,8 +54,7 @@ public class UserServiceImpl implements UserService {
         }
         try {
             UserEntity userEntity = this.userRepository.save(userToSave);
-            UserViewDto viewDto = this.modelMapper.map(userEntity, UserViewDto.class);
-            return viewDto;
+            return this.modelMapper.map(userEntity, UserViewDto.class);
         } catch (Exception e) {
             throw new BadRequestException("Something went wrong" + e.getMessage());
         }
@@ -87,5 +89,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserEntity> findByEmail(String email) {
         return this.userRepository.findByEmail(email);
+    }
+
+    @Override
+    @Transactional
+    public void delete(String id) throws UserNotFoundException {
+        Optional<UserEntity> user = this.findById(id);
+        if (user.isPresent()) {
+            this.userRepository.deleteById(id);
+        } else {
+            throw new UserNotFoundException("Missing user with such id");
+        }
     }
 }
