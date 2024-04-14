@@ -22,7 +22,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     private final ModelMapper modelMapper;
 
     @Override
-    public ExpenseViewDto addExpense(CreateExpenseDto createExpenseDto) throws BadRequestException {
+    public ExpenseViewDto createExpense(CreateExpenseDto createExpenseDto) throws BadRequestException {
         Optional<ExpenseEntity> optionalExpense =
                 this.expenseRepository.findByName(createExpenseDto.getName());
 
@@ -36,4 +36,6 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         return this.modelMapper.map(expense, ExpenseViewDto.class);
     }
+
+
 }

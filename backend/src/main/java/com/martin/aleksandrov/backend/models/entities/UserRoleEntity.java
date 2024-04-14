@@ -11,11 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserRoleEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserRoleEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;

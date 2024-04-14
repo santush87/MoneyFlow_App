@@ -15,11 +15,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DateAndSum {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class DateAndSum extends BaseEntity{
 
     @Column(nullable = false)
     private LocalDate addedOn;

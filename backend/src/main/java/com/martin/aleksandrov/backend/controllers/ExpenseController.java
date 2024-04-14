@@ -21,6 +21,6 @@ public class ExpenseController {
 
     @PostMapping("create")
     public ResponseEntity<ExpenseViewDto> createExpense(@RequestBody CreateExpenseDto expense) throws BadRequestException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.expenseService.addExpense(expense));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.expenseService.createExpense(expense));
     }
 }

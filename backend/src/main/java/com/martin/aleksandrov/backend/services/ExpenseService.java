@@ -6,5 +6,5 @@ import org.apache.coyote.BadRequestException;
 
 public interface ExpenseService {
 
-    ExpenseViewDto addExpense(CreateExpenseDto createExpenseDto) throws BadRequestException;
+    ExpenseViewDto createExpense(CreateExpenseDto createExpenseDto) throws BadRequestException;
 }
