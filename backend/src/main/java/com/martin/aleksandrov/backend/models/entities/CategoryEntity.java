@@ -21,7 +21,7 @@ public class CategoryEntity extends BaseEntity{
     @Column
     private String description;
 
-    @ManyToMany
+    @OneToMany
     private List<ExpenseEntity> expenses;
 
     public CategoryEntity() {
