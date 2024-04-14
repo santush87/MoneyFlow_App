@@ -1,6 +1,5 @@
 package com.martin.aleksandrov.backend.models.entities;
 
-import com.martin.aleksandrov.backend.models.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
