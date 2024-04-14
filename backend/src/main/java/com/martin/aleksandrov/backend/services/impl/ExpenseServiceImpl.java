@@ -1,7 +1,9 @@
 package com.martin.aleksandrov.backend.services.impl;
 
 import com.martin.aleksandrov.backend.models.dtos.ExpenseViewDto;
+import com.martin.aleksandrov.backend.models.dtos.binding.CreateDateAndSumDto;
 import com.martin.aleksandrov.backend.models.dtos.binding.CreateExpenseDto;
+import com.martin.aleksandrov.backend.models.entities.DateAndSum;
 import com.martin.aleksandrov.backend.models.entities.ExpenseEntity;
 import com.martin.aleksandrov.backend.repositories.DateAndSumRepository;
 import com.martin.aleksandrov.backend.repositories.ExpenseRepository;
@@ -11,6 +13,7 @@ import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -37,5 +40,26 @@ public class ExpenseServiceImpl implements ExpenseService {
         return this.modelMapper.map(expense, ExpenseViewDto.class);
     }
 
+    @Override
+    public String addToExpense(Long expenseId, CreateDateAndSumDto dateAndSumDto) throws BadRequestException {
+        Optional<ExpenseEntity> optionalExpense =
+                this.expenseRepository.findById(expenseId);
 
+        if (optionalExpense.isPresent()) {
+
+            DateAndSum dateAndSum = this.modelMapper.map(dateAndSumDto, DateAndSum.class);
+            dateAndSum.setExpenseEntity(optionalExpense.get());
+
+            this.dateAndSumRepository.save(dateAndSum);
+
+            optionalExpense.get().getAmounts().add(dateAndSum);
+
+            this.expenseRepository.save(optionalExpense.get());
+            return "Successfully added expense";
+
+        } else {
+            throw new BadRequestException("There isn't an expense with that name");
+        }
+
+    }
 }

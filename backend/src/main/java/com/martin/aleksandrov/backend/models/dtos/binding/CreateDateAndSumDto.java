@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,5 +17,5 @@ public class CreateDateAndSumDto {
     private String addedOn;
 
     @Positive
-    private Double amount;
+    private BigDecimal amount;
 }
