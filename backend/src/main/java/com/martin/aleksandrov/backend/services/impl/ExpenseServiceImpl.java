@@ -46,16 +46,19 @@ public class ExpenseServiceImpl implements ExpenseService {
                 this.expenseRepository.findById(expenseId);
 
         if (optionalExpense.isPresent()) {
+            try {
+                DateAndSum dateAndSum = this.modelMapper.map(dateAndSumDto, DateAndSum.class);
+                dateAndSum.setExpenseEntity(optionalExpense.get());
 
-            DateAndSum dateAndSum = this.modelMapper.map(dateAndSumDto, DateAndSum.class);
-            dateAndSum.setExpenseEntity(optionalExpense.get());
+                this.dateAndSumRepository.save(dateAndSum);
 
-            this.dateAndSumRepository.save(dateAndSum);
+                optionalExpense.get().getAmounts().add(dateAndSum);
 
-            optionalExpense.get().getAmounts().add(dateAndSum);
-
-            this.expenseRepository.save(optionalExpense.get());
-            return "Successfully added expense";
+                this.expenseRepository.save(optionalExpense.get());
+                return "Successfully added expense";
+            } catch (Exception e) {
+                throw new BadRequestException("Enter correct data!");
+            }
 
         } else {
             throw new BadRequestException("There isn't an expense with that name");

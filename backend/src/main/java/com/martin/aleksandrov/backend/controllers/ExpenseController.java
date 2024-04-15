@@ -22,9 +22,11 @@ public class ExpenseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.expenseService.createExpense(expense));
     }
 
-    @PostMapping("/{id}/add")
-    public ResponseEntity<String> addExpense(@PathVariable Long id,
-                                                     @RequestBody CreateDateAndSumDto expense) throws BadRequestException {
-        return ResponseEntity.status(HttpStatus.OK).body(this.expenseService.addToExpense(id, expense));
+    @PostMapping("/{expenseId}/add")
+    public ResponseEntity<String> addExpense(@PathVariable Long expenseId,
+                                             @RequestBody CreateDateAndSumDto expense) throws BadRequestException {
+        return ResponseEntity.status(HttpStatus.OK).body(this.expenseService.addToExpense(expenseId, expense));
     }
+
+
 }
