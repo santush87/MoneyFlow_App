@@ -8,12 +8,12 @@ import com.martin.aleksandrov.backend.models.entities.ExpenseEntity;
 import com.martin.aleksandrov.backend.repositories.DateAndSumRepository;
 import com.martin.aleksandrov.backend.repositories.ExpenseRepository;
 import com.martin.aleksandrov.backend.services.ExpenseService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -41,6 +41,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    @Transactional
     public String addToExpense(Long expenseId, CreateDateAndSumDto dateAndSumDto) throws BadRequestException {
         Optional<ExpenseEntity> optionalExpense =
                 this.expenseRepository.findById(expenseId);
@@ -63,6 +64,6 @@ public class ExpenseServiceImpl implements ExpenseService {
         } else {
             throw new BadRequestException("There isn't an expense with that name");
         }
-
     }
+
 }
