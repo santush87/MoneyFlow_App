@@ -1,9 +1,14 @@
 package com.martin.aleksandrov.backend.controllers;
 
 import com.martin.aleksandrov.backend.exceptions.UserNotFoundException;
+import com.martin.aleksandrov.backend.models.dtos.AuthRequest;
+import com.martin.aleksandrov.backend.models.dtos.AuthResponse;
+import com.martin.aleksandrov.backend.models.dtos.RegisterRequest;
 import com.martin.aleksandrov.backend.models.dtos.binding.UserRegistrationDto;
 import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.services.UserService;
+import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
+import com.nimbusds.openid.connect.sdk.AuthenticationResponse;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
@@ -23,6 +28,20 @@ public class UserController {
 //    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserViewDto> createUser(@RequestBody UserRegistrationDto userRegistrationDto) throws BadRequestException {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.register(userRegistrationDto));
+    }
+
+    @PostMapping("/register/new")
+//    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<AuthResponse> register(
+            @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(this.userService.registerSecond(request));
+    }
+
+    @PostMapping("/authenticate")
+//    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<AuthResponse> register(
+            @RequestBody AuthRequest request) {
+        return ResponseEntity.ok(this.userService.authenticate(request));
     }
 
     @GetMapping("/all")
