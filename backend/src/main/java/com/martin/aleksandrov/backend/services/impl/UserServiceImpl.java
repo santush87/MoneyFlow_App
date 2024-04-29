@@ -1,6 +1,10 @@
 package com.martin.aleksandrov.backend.services.impl;
 
+import com.martin.aleksandrov.backend.config.JwtService;
 import com.martin.aleksandrov.backend.exceptions.UserNotFoundException;
+import com.martin.aleksandrov.backend.models.dtos.AuthRequest;
+import com.martin.aleksandrov.backend.models.dtos.AuthResponse;
+import com.martin.aleksandrov.backend.models.dtos.RegisterRequest;
 import com.martin.aleksandrov.backend.models.dtos.binding.UserRegistrationDto;
 import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.models.entities.UserEntity;
@@ -13,6 +17,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +34,8 @@ public class UserServiceImpl implements UserService {
     private final UserRoleRepository roleRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public UserViewDto register(UserRegistrationDto userRegistrationDto) throws BadRequestException {
@@ -99,5 +107,37 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserNotFoundException("Missing user with such id");
         }
+    }
+
+    @Override
+    public AuthResponse registerSecond(RegisterRequest request) {
+        UserEntity user = this.modelMapper.map(request, UserEntity.class);
+        user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+
+        this.userRepository.save(user);
+        String jwtToken = jwtService.generateToken(user);
+
+        return AuthResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
+
+    @Override
+    public AuthResponse authenticate(AuthRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        UserEntity user = this.userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        String jwtToken = jwtService.generateToken(user);
+
+        return AuthResponse.builder()
+                .token(jwtToken)
+                .build();
     }
 }
