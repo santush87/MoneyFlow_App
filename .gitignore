@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+backend/.mvn/wrapper/maven-wrapper.properties
+backend/mvnw.cmd
+backend/mvnw
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/src/main/java/com/martin/aleksandrov/backend/BackendApplication.java
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/src/test/java/com/martin/aleksandrov/backend/BackendApplicationTests.java
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/.mvn/wrapper/maven-wrapper.jar

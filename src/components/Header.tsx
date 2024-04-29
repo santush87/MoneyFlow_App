@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import TheLogo from "../Logo.jpg";
-import { TEXT_COLOR_HEADER_FOOTER, BACKGROUND_COLOR_HEADER_FOOTER } from '../constants/colors.js'
+import {
+  TEXT_COLOR_HEADER_FOOTER,
+  BACKGROUND_COLOR_HEADER_FOOTER,
+  TEXT_COLOR_HEADER_FOOTER_LIGHT,
+  BACKGROUND_COLOR_HEADER_FOOTER_LIGHT
+} from '../constants/colors.js'
 import { Fragment, useState } from "react";
 import {
   Dialog,
@@ -67,9 +72,10 @@ function classNames(...classes: string[]) {
 export default function Header() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   return (
-    <header className={BACKGROUND_COLOR_HEADER_FOOTER}>
+    <header className={darkMode ? BACKGROUND_COLOR_HEADER_FOOTER : BACKGROUND_COLOR_HEADER_FOOTER_LIGHT}>
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
@@ -87,7 +93,7 @@ export default function Header() {
         <div className="flex lg:hidden">
           <button
             type="button"
-            className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 ${TEXT_COLOR_HEADER_FOOTER}`}
+            className={`-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
@@ -165,7 +171,7 @@ export default function Header() {
 
           <Link
             to="/"
-            className={`text-lg font-semibold leading-6 ${TEXT_COLOR_HEADER_FOOTER}`}
+            className={`text-lg font-semibold leading-6 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
           >
             Home
           </Link>
@@ -177,7 +183,7 @@ export default function Header() {
           </Link> */}
           <Link
             to="/register"
-            className={`text-lg font-semibold leading-6 ${TEXT_COLOR_HEADER_FOOTER}`}
+            className={`text-lg font-semibold leading-6 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
           >
             Register
           </Link>
@@ -187,7 +193,7 @@ export default function Header() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
             to="/login"
-            className={`text-lg font-semibold leading-6 ${TEXT_COLOR_HEADER_FOOTER}`}
+            className={`text-lg font-semibold leading-6 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
           >
             Log in <span aria-hidden="true">&rarr;</span>
           </Link>
