@@ -31,3 +31,5 @@ backend/.mvn/wrapper/maven-wrapper.jar
 backend/src/test/java/com/martin/aleksandrov/backend/BackendApplicationTests.java
 backend/.mvn/wrapper/maven-wrapper.jar
 backend/.mvn/wrapper/maven-wrapper.jar
+backend/compose.yaml
+backend/.mvn/wrapper/maven-wrapper.jar
