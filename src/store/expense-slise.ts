@@ -1,11 +1,14 @@
 import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type ExpenseItem = {
-  id: string;
-  name: string;
+type DateAndSum = {
+  addedOn: Date;
   amount: number;
-  date: Date;
-  quantity: number;
+};
+
+type ExpenseItem = {
+  name: string;
+  description: string;
+  dateAndSum: DateAndSum[];
 };
 
 type ExpenseState = {
@@ -23,33 +26,63 @@ export const expenseSlice = createSlice({
     addExpense(
       state,
       action: PayloadAction<{
-        id: string;
         name: string;
+        description: string;
+        addedOn: Date;
         amount: number;
-        date: Date;
       }>
     ) {
       const itemIndex = state.items.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item.name === action.payload.name
       );
 
       if (itemIndex >= 0) {
-        state.items[itemIndex].quantity++;
+        state.items[itemIndex].dateAndSum.push({
+          addedOn: action.payload.addedOn,
+          amount: action.payload.amount,
+        });
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.items.push({
+          name: action.payload.name,
+          description: action.payload.description,
+          dateAndSum: [
+            {
+              addedOn: action.payload.addedOn,
+              amount: action.payload.amount,
+            },
+          ],
+        });
       }
     },
-    editExpense() {},
+    editExpense(
+      state,
+      action: PayloadAction<{
+        name: string;
+        description: string;
+      }>
+    ) {
+      const itemIndex = state.items.findIndex(
+        (item) => item.name === action.payload.name
+      );
+
+      if (itemIndex >= 0) {
+        state.items[itemIndex].name = action.payload.name;
+        state.items[itemIndex].description = action.payload.description;
+      }
+    },
     removeExpense(state, action: PayloadAction<string>) {
       const itemIndex = state.items.findIndex(
-        (item) => item.id === action.payload
+        (item) => item.name === action.payload
       );
 
       if (itemIndex === 1) {
         state.items.splice(itemIndex, 1);
       } else {
-        state.items[itemIndex].quantity--;
+        console.log("No such expense!");
+        // state.items[itemIndex].quantity--;
       }
     },
   },
 });
+
+export const { addExpense, editExpense, removeExpense } = expenseSlice.actions;
