@@ -1,9 +1,9 @@
 package com.martin.aleksandrov.backend.services.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.martin.aleksandrov.backend.config.JwtService;
 import com.martin.aleksandrov.backend.exceptions.UserNotFoundException;
-import com.martin.aleksandrov.backend.models.dtos.AuthRequest;
-import com.martin.aleksandrov.backend.models.dtos.AuthResponse;
+import com.martin.aleksandrov.backend.models.dtos.LoginRequest;
 import com.martin.aleksandrov.backend.models.dtos.binding.UserRegistrationDto;
 import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.models.entities.UserEntity;
@@ -12,15 +12,23 @@ import com.martin.aleksandrov.backend.models.enums.UserRole;
 import com.martin.aleksandrov.backend.repositories.UserRepository;
 import com.martin.aleksandrov.backend.repositories.UserRoleRepository;
 import com.martin.aleksandrov.backend.services.UserService;
+import com.martin.aleksandrov.backend.token.AuthResponse;
+import com.martin.aleksandrov.backend.token.Token;
+import com.martin.aleksandrov.backend.token.TokenRepository;
+import com.martin.aleksandrov.backend.token.TokenType;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserRoleRepository roleRepository;
+    private final TokenRepository tokenRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -61,6 +70,7 @@ public class UserServiceImpl implements UserService {
         try {
             UserEntity userEntity = this.userRepository.save(userToSave);
             String jwtToken = jwtService.generateToken(userEntity);
+            saveUserToken(userEntity, jwtToken);
 
             return AuthResponse.builder()
                     .token(jwtToken)
@@ -114,7 +124,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AuthResponse authenticate(AuthRequest request) {
+    public AuthResponse authenticate(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -130,5 +140,62 @@ public class UserServiceImpl implements UserService {
         return AuthResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    @Override
+    public void saveUserToken(UserEntity user, String jwtToken) {
+        Token token = Token.builder()
+                .user(user)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(token);
+    }
+
+    @Override
+    public void revokeAllUserTokens(UserEntity user) {
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        if (validUserTokens.isEmpty())
+            return;
+        validUserTokens.forEach(token -> {
+            token.setExpired(true);
+            token.setRevoked(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
+    }
+
+    @Override
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String refreshToken;
+        final String userEmail;
+
+        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+            return;
+        }
+        refreshToken = authHeader.substring(7);
+
+        userEmail = jwtService.extractUsername(refreshToken);
+
+        if (userEmail != null) {
+            UserEntity user = this.userRepository.findByEmail(userEmail)
+                    .orElseThrow();
+
+            if (jwtService.isTokenValid(refreshToken, user)) {
+                String accessToken = jwtService.generateToken(user);
+
+                revokeAllUserTokens(user);
+
+                saveUserToken(user, accessToken);
+
+                var authResponse = AuthResponse.builder()
+                        .token(accessToken)
+                        .build();
+                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+            }
+        }
     }
 }

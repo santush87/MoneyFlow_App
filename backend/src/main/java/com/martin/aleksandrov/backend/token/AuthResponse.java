@@ -1,4 +1,4 @@
-package com.martin.aleksandrov.backend.models.dtos;
+package com.martin.aleksandrov.backend.token;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,10 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class AuthResponse {
 
     private String token;
 }
+

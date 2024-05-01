@@ -1,11 +1,11 @@
 package com.martin.aleksandrov.backend.controllers;
 
 import com.martin.aleksandrov.backend.exceptions.UserNotFoundException;
-import com.martin.aleksandrov.backend.models.dtos.AuthRequest;
-import com.martin.aleksandrov.backend.models.dtos.AuthResponse;
+import com.martin.aleksandrov.backend.models.dtos.LoginRequest;
 import com.martin.aleksandrov.backend.models.dtos.binding.UserRegistrationDto;
 import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.services.UserService;
+import com.martin.aleksandrov.backend.token.AuthResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> createUser(@RequestBody UserRegistrationDto userRegistrationDto) {
+    public ResponseEntity<AuthResponse> register(@RequestBody UserRegistrationDto userRegistrationDto) {
         try {
             AuthResponse authResponse = this.userService.register(userRegistrationDto);
             return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
@@ -38,9 +38,8 @@ public class UserController {
 
 
     @PostMapping("/authenticate")
-//    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<AuthResponse> register(
-            @RequestBody AuthRequest request) {
+    public ResponseEntity<AuthResponse> authenticateUser(
+            @RequestBody LoginRequest request) {
         return ResponseEntity.ok(this.userService.authenticate(request));
     }
 
