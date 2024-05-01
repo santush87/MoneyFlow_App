@@ -53,7 +53,7 @@ public class UserEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<UserRoleEntity> roles = new ArrayList<>();
 
-    @OneToMany
+    @ManyToMany
     private List<CategoryEntity> categories;
 
     public UserEntity() {
