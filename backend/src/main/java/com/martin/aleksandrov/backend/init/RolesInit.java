@@ -19,16 +19,16 @@ public class RolesInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        boolean hasRoles = this.roleRepository.count() > 0;
-
-        if (!hasRoles) {
-            Set<UserRoleEntity> userRoles = new HashSet<>();
-
-            Arrays.stream(UserRole.values())
-                    .forEach(role -> userRoles.add(new UserRoleEntity(role)));
-
-            this.roleRepository.saveAll(userRoles);
-        }
+//        boolean hasRoles = this.roleRepository.count() > 0;
+//
+//        if (!hasRoles) {
+//            Set<UserRoleEntity> userRoles = new HashSet<>();
+//
+//            Arrays.stream(UserRole.values())
+//                    .forEach(role -> userRoles.add(new UserRoleEntity(role)));
+//
+//            this.roleRepository.saveAll(userRoles);
+//        }
     }
 
 
