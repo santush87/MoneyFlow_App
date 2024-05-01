@@ -4,7 +4,6 @@ import com.martin.aleksandrov.backend.config.JwtService;
 import com.martin.aleksandrov.backend.exceptions.UserNotFoundException;
 import com.martin.aleksandrov.backend.models.dtos.AuthRequest;
 import com.martin.aleksandrov.backend.models.dtos.AuthResponse;
-import com.martin.aleksandrov.backend.models.dtos.RegisterRequest;
 import com.martin.aleksandrov.backend.models.dtos.binding.UserRegistrationDto;
 import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.models.entities.UserEntity;
@@ -38,7 +37,7 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public UserViewDto register(UserRegistrationDto userRegistrationDto) throws BadRequestException {
+    public AuthResponse register(UserRegistrationDto userRegistrationDto) throws BadRequestException {
         Optional<UserEntity> optionalUser = this.userRepository.findByEmail(userRegistrationDto.getEmail());
         if (optionalUser.isPresent()) {
             throw new BadRequestException("Duplicate identifier");
@@ -61,7 +60,12 @@ public class UserServiceImpl implements UserService {
         }
         try {
             UserEntity userEntity = this.userRepository.save(userToSave);
-            return this.modelMapper.map(userEntity, UserViewDto.class);
+            String jwtToken = jwtService.generateToken(userEntity);
+
+            return AuthResponse.builder()
+                    .token(jwtToken)
+                    .build();
+
         } catch (Exception e) {
             throw new BadRequestException("Something went wrong" + e.getMessage());
         }
@@ -107,19 +111,6 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserNotFoundException("Missing user with such id");
         }
-    }
-
-    @Override
-    public AuthResponse registerSecond(RegisterRequest request) {
-        UserEntity user = this.modelMapper.map(request, UserEntity.class);
-        user.setPassword(this.passwordEncoder.encode(request.getPassword()));
-
-        this.userRepository.save(user);
-        String jwtToken = jwtService.generateToken(user);
-
-        return AuthResponse.builder()
-                .token(jwtToken)
-                .build();
     }
 
     @Override
