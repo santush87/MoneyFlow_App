@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IncomeOutcome } from "../../types/types";
+import { IncomeOutcome } from "../../lib/types";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const text = 'text-xl text-indigo-300 pb-2 text-center'
