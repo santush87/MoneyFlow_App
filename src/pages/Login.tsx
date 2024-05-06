@@ -1,35 +1,27 @@
 import { Link } from 'react-router-dom'
 import TheLogo from '../Logo.jpg'
-// import { useState, useRef, type FormEvent } from 'react';
-// import './Login.module.css'
 
-// type LoginForm = {
-//     email: string;
-//     password: string;
-// }
+import { useForm } from "react-hook-form"
+import { TLoginSchema } from '../lib/types';
+
 
 export default function Login() {
-    // const [state, setState] = useState<LoginForm>({
-    //     email: "",
-    //     password: ""
-    // });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        reset,
+    } = useForm<TLoginSchema>();
 
-    // const email = useRef<HTMLInputElement>(null);
-    // const password = useRef<HTMLInputElement>(null);
 
-    // const handleOnSubmit = (event: FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
+    const onSubmit = (data: TLoginSchema) => {
+        // TODO
+        //...
 
-    //     // new FormData(event.currentTarget)
-
-    //     const enteredEmail = email.current!.value;
-    //     const enteredPassword = password.current!.value;
-
-    //     setState({ email: enteredEmail, password: enteredPassword })
-    // };
+        reset()
+    }
 
     return (
-
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className='max-w-lg mr-auto ml-auto px-16 py-4 shadow-2xl bg-slate-50'>
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -44,18 +36,17 @@ export default function Login() {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" action="#" method="POST">
                         <div>
                             <label htmlFor="email" className="block text-md font-medium leading-6 text-gray-900">
                                 Имейл
                             </label>
                             <div className="mt-2">
                                 <input
-                                    id="email"
-                                    name="email"
+                                    {...register("email")}
                                     type="email"
+                                    placeholder='Email'
                                     autoComplete="email"
-                                    required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -74,19 +65,21 @@ export default function Login() {
                             </div>
                             <div className="mt-2">
                                 <input
-                                    id="password"
-                                    name="password"
+                                    {...register("password")}
                                     type="password"
                                     autoComplete="current-password"
-                                    required
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
+                                {errors.password && (
+                                    <p className='text-red-500'>{`${errors.password.message}`}</p>
+                                )}
                             </div>
                         </div>
 
                         <div>
                             <button
                                 type="submit"
+                                disabled={isSubmitting}
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Влез
@@ -103,45 +96,5 @@ export default function Login() {
                 </div>
             </div>
         </div>
-
-        // <div className="form-container">
-        //     <form onSubmit={handleOnSubmit}>
-        //         <h1>Sign in</h1>
-        //         {/* Social container */}
-        //         <div className="social-container">
-        //             <a href="#" className="social">a
-        //                 <i className="fab fa-facebook-f" />
-        //             </a>
-        //             <a href="#" className="social">s
-        //                 <i className="fab fa-google-plus-g" />
-        //             </a>
-        //             <a href="#" className="social">d
-        //                 <i className="fab fa-linkedin-in" />
-        //             </a>
-        //         </div>
-        //         {/* EO: Social container */}
-        //         <span>or use your account</span>
-        //         {/* INPUT */}
-        //         <input
-        //             type="email"
-        //             placeholder="Email"
-        //             name="email"
-        //             // value={state.email}
-        //             // onChange={handleChange}
-        //             ref={email}
-        //         />
-        //         <input
-        //             type="password"
-        //             name="password"
-        //             placeholder="Password"
-        //             // value={state.password}
-        //             // onChange={handleChange}
-        //             ref={password}
-        //         />
-        //         {/* EO: INPUT */}
-        //         <a href="#">Forgot your password?</a>
-        //         <button>Sign In</button>
-        //     </form>
-        // </div>
     )
 }
