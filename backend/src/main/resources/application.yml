@@ -19,3 +19,19 @@ spring:
             mode: never
     backend:
         key: ${SECRET_KEY}
+
+    security:
+        oauth2:
+            client:
+                registration:
+#        GOOGLE Login
+                    google:
+                        client-id: ${GOOGLE_CLIENT_ID}
+                        client-secret: ${GOOGLE_CLIENT_SECRET}
+                        scope: email, profile
+#        Facebook Login
+                    facebook:
+                        client-id: ${FACEBOOK_CLIENT_ID}
+                        client-secret: ${FACEBOOK_CLIENT_SECRET}
+                        scope: email, public_profile
+                        authorization-grant-type: authorization_code
