@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import TheLogo from '../Logo.jpg'
 
 import { useForm } from "react-hook-form"
-import { TLoginSchema } from '../lib/types';
+import { TLoginSchema, loginSchema } from '../lib/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 
 export default function Login() {
@@ -11,10 +12,13 @@ export default function Login() {
         handleSubmit,
         formState: { errors, isSubmitting },
         reset,
-    } = useForm<TLoginSchema>();
+    } = useForm<TLoginSchema>({
+        resolver: zodResolver(loginSchema)
+    });
 
 
     const onSubmit = (data: TLoginSchema) => {
+        console.log(data);
         // TODO
         //...
 
@@ -53,6 +57,9 @@ export default function Login() {
                                     autoComplete="email"
                                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
+                                {errors.email && (
+                                    <p className='text-red-500'>{`${errors.email.message}`}</p>
+                                )}
                             </div>
                         </div>
 
@@ -63,7 +70,9 @@ export default function Login() {
                                     Парола
                                 </label>
                                 <div className="text-sm">
-                                    <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                    <a href="#"
+                                        className="font-semibold text-indigo-600 
+                                    hover:text-indigo-500">
                                         Забравена парола?
                                     </a>
                                 </div>

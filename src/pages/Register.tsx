@@ -17,6 +17,7 @@ export default function Register() {
 
 
 	const onSubmit = (data: TRegisterSchema) => {
+		console.log(data);
 		// TODO
 		//...
 
@@ -50,6 +51,7 @@ export default function Register() {
 							<div className="mt-2">
 								<input
 									{...register("email")}
+									id="email"
 									type="email"
 									placeholder='Email'
 									autoComplete="email"
@@ -59,18 +61,22 @@ export default function Register() {
 									  focus:ring-2 focus:ring-inset focus:ring-indigo-600 
 									  sm:text-sm sm:leading-6 px-2"
 								/>
+								{errors.email && (
+									<p className='text-red-500'>{`${errors.email.message}`}</p>
+								)}
 							</div>
 						</div>
 						<div className='flex gap-2'>
 							{/* FIRST NAME */}
 							<div className='flex flex-col'>
-
-								<label htmlFor="firstName" className="block text-md font-medium leading-6 text-gray-900">
+								<label htmlFor="firstName"
+									className="block text-md font-medium leading-6 text-gray-900">
 									Име
 								</label>
 								<div className="mt-2">
 									<input
 										{...register("firstName")}
+										id="firstName"
 										type="text"
 										placeholder='First Name'
 										className="block w-full rounded-md border-0 py-1.5
@@ -79,6 +85,9 @@ export default function Register() {
 									focus:ring-2 focus:ring-inset focus:ring-indigo-600 
 									sm:text-sm sm:leading-6 px-2"
 									/>
+									{errors.firstName && (
+										<p className='text-red-500'>{`${errors.firstName.message}`}</p>
+									)}
 								</div>
 							</div>
 							{/* LAST NAME */}
@@ -91,6 +100,7 @@ export default function Register() {
 								<div className="mt-2">
 									<input
 										{...register("lastName")}
+										id="lastName"
 										type="text"
 										placeholder='First Name'
 										className="block w-full rounded-md border-0 py-1.5
@@ -99,6 +109,9 @@ export default function Register() {
 									focus:ring-2 focus:ring-inset focus:ring-indigo-600 
 									sm:text-sm sm:leading-6 px-2"
 									/>
+									{errors.lastName && (
+										<p className='text-red-500'>{`${errors.lastName.message}`}</p>
+									)}
 								</div>
 							</div>
 						</div>
@@ -114,6 +127,7 @@ export default function Register() {
 									<div className="mt-2">
 										<input
 											{...register("password")}
+											id="password"
 											type="password"
 											placeholder='Password'
 											className="block w-full rounded-md border-0 py-1.5
@@ -138,6 +152,7 @@ export default function Register() {
 									<div className="mt-2">
 										<input
 											{...register("confirmPassword")}
+											id="confirmPassword"
 											type="password"
 											placeholder='Confirm password'
 											className="block w-full rounded-md border-0 py-1.5
