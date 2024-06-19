@@ -17,12 +17,15 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final String SECRET_KEY;
+    @Value("${spring.backend.key}")
+    private String SECRET_KEY;
 
-    public JwtService(@Value("${spring.backend.key}")
-                      String secretKey) {
-        SECRET_KEY = secretKey;
-    }
+    @Value("${spring.backend.expiration}")
+    private long JWT_EXPIRATION;
+
+    @Value("${spring.backend.refresh-token.expiration}")
+    private long REFRESH_EXPIRATION;
+
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -40,15 +43,27 @@ public class JwtService {
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails) {
+            UserDetails userDetails
+    ) {
+        return buildToken(extraClaims, userDetails, JWT_EXPIRATION);
+    }
+
+    public String generateRefreshToken(
+            UserDetails userDetails
+    ) {
+        return buildToken(new HashMap<>(), userDetails, REFRESH_EXPIRATION);
+    }
+
+    public String buildToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails,
+            long expiration) {
         return Jwts
                 .builder()
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(
-                        System.currentTimeMillis()
-                                + 1000 * 60 * 24 * 14))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey())
                 .compact();
     }

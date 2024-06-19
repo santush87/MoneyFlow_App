@@ -1,12 +1,13 @@
 package com.martin.aleksandrov.backend.controllers;
 
 import com.martin.aleksandrov.backend.exceptions.UserNotFoundException;
-import com.martin.aleksandrov.backend.models.dtos.LoginRequest;
 import com.martin.aleksandrov.backend.models.dtos.binding.UserRegistrationDto;
 import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.services.UserService;
+import com.martin.aleksandrov.backend.token.AuthRequest;
 import com.martin.aleksandrov.backend.token.AuthResponse;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class UserController {
 
         } catch (Exception e) {
             AuthResponse response = AuthResponse.builder()
-                    .token(e.getMessage())
+                    .accessToken(e.getMessage())
                     .build();
             return new ResponseEntity<>(
                     response,
@@ -39,7 +40,7 @@ public class UserController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticateUser(
-            @RequestBody LoginRequest request) {
+            @RequestBody AuthRequest request) throws BadRequestException {
         return ResponseEntity.ok(this.userService.authenticate(request));
     }
 

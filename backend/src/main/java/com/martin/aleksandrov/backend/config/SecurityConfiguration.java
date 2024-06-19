@@ -29,6 +29,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+//                .cors(c -> c.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(WHITE_LIST_URL).permitAll()
@@ -42,17 +43,29 @@ public class SecurityConfiguration {
                         .loginPage("/login")
                         .permitAll()
                 )
-                .oauth2Login(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
+//                .oauth2Login(Customizer.withDefaults())
                 .logout(logout ->
-                        logout.logoutUrl("/logout")
+                        logout.logoutUrl("/user/logout")
                                 .addLogoutHandler(logoutHandler)
                                 .logoutSuccessHandler(
                                         (request, response, authentication) ->
-                                                SecurityContextHolder.clearContext()
-                                )
+                                                SecurityContextHolder.clearContext())
                 );
 
 
         return http.build();
     }
+
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//
+//        return source;
+//    }
 }

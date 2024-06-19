@@ -1,10 +1,10 @@
 package com.martin.aleksandrov.backend.services;
 
 import com.martin.aleksandrov.backend.exceptions.UserNotFoundException;
-import com.martin.aleksandrov.backend.models.dtos.LoginRequest;
 import com.martin.aleksandrov.backend.models.dtos.binding.UserRegistrationDto;
 import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import com.martin.aleksandrov.backend.models.entities.UserEntity;
+import com.martin.aleksandrov.backend.token.AuthRequest;
 import com.martin.aleksandrov.backend.token.AuthResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,11 +28,9 @@ public interface UserService {
 
     void delete(String id) throws UserNotFoundException;
 
-    AuthResponse authenticate(LoginRequest request);
+    AuthResponse authenticate(AuthRequest request) throws BadRequestException;
 
     void saveUserToken(UserEntity user, String jwtToken);
-
-    void revokeAllUserTokens(UserEntity user);
 
     void refreshToken(
             HttpServletRequest request,
