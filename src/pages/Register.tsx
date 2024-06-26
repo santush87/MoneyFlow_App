@@ -4,7 +4,7 @@ import TheLogo from '../Logo.jpg'
 import { useForm } from "react-hook-form";
 import { TRegisterSchema, registerSchema } from "../lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BASE_URL } from '../CONSTANTS';
+import { BASE_URL } from '../constants/url.ts';
 import { OauthToken, login } from '../store/authSlice';
 import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../store/hooks';

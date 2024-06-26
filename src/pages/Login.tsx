@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '../store/hooks';
 import { OauthToken, login } from '../store/authSlice';
 import { useMutation } from "@tanstack/react-query";
-import { BASE_URL } from '../CONSTANTS';
+import { BASE_URL } from '../constants/url.ts';
 
 async function authenticateUser(data: TLoginSchema): Promise<OauthToken> {
     const response = await fetch(`${BASE_URL}/user/authenticate`, {
