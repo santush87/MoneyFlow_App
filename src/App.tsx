@@ -5,16 +5,25 @@ import Home from './pages/Home.tsx'
 import Login from './pages/Login.tsx'
 import RootLayout from './pages/RootLayout.tsx'
 import Register from './pages/Register.tsx'
-import { store } from './store/store.ts'
+import store from './store/store.ts'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     children: [
-      { path: '/', element: <Home /> },
-      { path: '/login', element: <Login /> },
-      { path: '/register', element: <Register /> },
+      {
+        path: 'home',
+        element: <Home />
+      },
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'register',
+        element: <Register />
+      },
     ],
   },
 ])
