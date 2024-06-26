@@ -1,28 +1,58 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import TheLogo from '../Logo.jpg'
 
 import { useForm } from "react-hook-form";
 import { TRegisterSchema, registerSchema } from "../lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { BASE_URL } from '../CONSTANTS';
+import { OauthToken, login } from '../store/authSlice';
+import { useMutation } from '@tanstack/react-query';
+import { useAppDispatch } from '../store/hooks';
+
+async function registerUser(data: TRegisterSchema): Promise<OauthToken> {
+	const response = await fetch(`${BASE_URL}/api/v1/register`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(data)
+	});
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw new Error(errorData.message || 'Authentication failed');
+	}
+	return response.json();
+}
 
 export default function Register() {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, isSubmitting },
-		reset,
+		// reset,
 	} = useForm<TRegisterSchema>({
 		resolver: zodResolver(registerSchema)
 	});
 
 
-	const onSubmit = (data: TRegisterSchema) => {
-		console.log(data);
-		// TODO
-		//...
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch()
 
-		reset()
-	}
+	const mutation = useMutation<OauthToken, Error, TRegisterSchema>({
+		mutationFn: registerUser,
+		onSuccess: (data) => {
+			dispatch(login(data));
+			console.log('Registration successful:', data);
+			navigate("/");
+		},
+		onError: (error: Error) => {
+			console.error('Registration error:', error.message);
+		}
+	});
+
+	const onSubmit = (data: TRegisterSchema) => {
+		mutation.mutate(data);
+	};
 	return (
 		<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
 			<div className='max-w-lg mr-auto ml-auto px-16 py-4 shadow-2xl rounded-2xl bg-slate-50'>

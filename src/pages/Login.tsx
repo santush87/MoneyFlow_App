@@ -1,29 +1,58 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import TheLogo from '../Logo.jpg'
 
 import { useForm } from "react-hook-form"
 import { TLoginSchema, loginSchema } from '../lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAppDispatch } from '../store/hooks';
+import { OauthToken, login } from '../store/authSlice';
+import { useMutation } from "@tanstack/react-query";
+import { BASE_URL } from '../CONSTANTS';
 
+async function authenticateUser(data: TLoginSchema): Promise<OauthToken> {
+    const response = await fetch(`${BASE_URL}/user/authenticate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Authentication failed');
+    }
+    return response.json();
+}
 
 export default function Login() {
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
-        reset,
+        // reset,
     } = useForm<TLoginSchema>({
         resolver: zodResolver(loginSchema)
     });
 
 
-    const onSubmit = (data: TLoginSchema) => {
-        console.log(data);
-        // TODO
-        //...
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
-        reset()
-    }
+    const mutation = useMutation<OauthToken, Error, TLoginSchema>({
+        mutationFn: authenticateUser,
+        onSuccess: (data) => {
+            dispatch(login(data));
+            // console.log('Login successful:', data);
+            navigate("/");
+        },
+        onError: (error: Error) => {
+            console.error('Login error:', error.message);
+        }
+    });
+
+    const onSubmit = (data: TLoginSchema) => {
+        mutation.mutate(data);
+    };
 
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
