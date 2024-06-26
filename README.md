@@ -1,4 +1,4 @@
-# Money Flow App
+# Money Flow App - In Progress...
 
 **Money Flow App** is an expense tracking application designed to simplify personal finance management. It provides a user-friendly interface for tracking expenses and managing budgets effectively.
 
