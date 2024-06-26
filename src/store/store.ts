@@ -1,8 +1,16 @@
+// src/store/store.ts
 import { configureStore } from "@reduxjs/toolkit";
-import { expenseSlice } from "./expense-slise.ts";
+import authReducer from "./authSlice";
+import { expenseSlice } from "./expense-slise";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     expense: expenseSlice.reducer,
+    auth: authReducer,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;
