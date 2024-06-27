@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,7 +29,7 @@ public class SecurityConfiguration {
     private final LogoutHandler logoutHandler;
     private static final String[] WHITE_LIST_URL = {
             "/", "/home",
-            "/user/register", "/user/authenticate"};
+            "/user/register", "/user/auth"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -45,11 +44,8 @@ public class SecurityConfiguration {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .formLogin(Customizer.withDefaults())
+
+//                .formLogin(Customizer.withDefaults())
 //                .oauth2Login(Customizer.withDefaults())
                 .logout(logout ->
                         logout.logoutUrl("/user/logout")

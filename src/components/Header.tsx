@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TheLogo from "../Logo.jpg";
 import {
   TEXT_COLOR_HEADER_FOOTER,
@@ -6,7 +6,7 @@ import {
   TEXT_COLOR_HEADER_FOOTER_LIGHT,
   BACKGROUND_COLOR_HEADER_FOOTER_LIGHT
 } from '../constants/colors.js'
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   // Disclosure,
@@ -27,6 +27,9 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
+import { useAppDispatch, useAppSelector } from "../store/hooks.js";
+import { logout, selectAuth } from "../store/authSlice.js";
+import { BASE_URL } from "../constants/url.js";
 
 const products = [
   {
@@ -73,6 +76,25 @@ export default function Header() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+
+  const isAuth = useAppSelector(selectAuth)
+  console.log("theAuth is " + isAuth)
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  async function onLogout(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    try {
+      await fetch(`${BASE_URL}/user/logout`, {
+        method: "POST",
+      });
+      dispatch(logout());
+      navigate("/");
+    } catch (error) {
+      console.error("Failed to logout:", error);
+    }
+  }
 
   return (
     <header className={darkMode ? BACKGROUND_COLOR_HEADER_FOOTER : BACKGROUND_COLOR_HEADER_FOOTER_LIGHT}>
@@ -175,28 +197,29 @@ export default function Header() {
           >
             Home
           </Link>
-          {/* <Link
-            to="/login"
-            className="text-lg font-semibold leading-6 text-gray-900"
-          >
-            Login
-          </Link> */}
-          <Link
+          {!isAuth && <Link
             to="/register"
             className={`text-lg font-semibold leading-6 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
           >
             Register
-          </Link>
+          </Link>}
         </Popover.Group>
 
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link
+          {!isAuth && <Link
             to="/login"
             className={`text-lg font-semibold leading-6 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
           >
             Log in <span aria-hidden="true">&rarr;</span>
-          </Link>
+          </Link>}
+          {isAuth &&
+            <button
+              onClick={onLogout}
+              className={`text-lg font-semibold leading-6 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
+            >
+              ИЗХОД
+            </button>}
         </div>
       </nav>
       <Dialog

@@ -38,10 +38,11 @@ public class UserController {
     }
 
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthResponse> authenticateUser(
-            @RequestBody AuthRequest request) throws BadRequestException {
-        return ResponseEntity.ok(this.userService.authenticate(request));
+    @PostMapping("/auth")
+    public ResponseEntity<AuthResponse> authenticate(
+            @RequestBody AuthRequest request
+    ) throws BadRequestException {
+        return ResponseEntity.ok(userService.authenticate(request));
     }
 
     @GetMapping("/all")
