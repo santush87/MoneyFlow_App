@@ -17,11 +17,14 @@ async function authenticateUser(data: TLoginSchema): Promise<OauthToken> {
         },
         body: JSON.stringify(data)
     });
+
     if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({ message: 'Authentication failed' }));
         throw new Error(errorData.message || 'Authentication failed');
     }
-    return response.json();
+
+    const responseBody = await response.text();
+    return responseBody ? JSON.parse(responseBody) : {};
 }
 
 export default function Login() {
