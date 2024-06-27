@@ -10,7 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { BASE_URL } from '../constants/url.ts';
 
 async function authenticateUser(data: TLoginSchema): Promise<OauthToken> {
-    const response = await fetch(`${BASE_URL}/user/authenticate`, {
+    const response = await fetch(`${BASE_URL}/user/auth`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export default function Login() {
         mutationFn: authenticateUser,
         onSuccess: (data) => {
             dispatch(login(data));
-            // console.log('Login successful:', data);
+            console.log('Login successful:', data);
             navigate("/");
         },
         onError: (error: Error) => {
@@ -70,9 +70,7 @@ export default function Login() {
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form onSubmit={handleSubmit(onSubmit)}
-                        className="space-y-6"
-                        action="#"
-                        method="POST">
+                        className="space-y-6">
                         <div>
                             <label htmlFor="email"
                                 className="block text-md font-medium leading-6 text-gray-900">
