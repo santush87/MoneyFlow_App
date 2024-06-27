@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../store/hooks';
 
 async function registerUser(data: TRegisterSchema): Promise<OauthToken> {
-	const response = await fetch(`${BASE_URL}/api/v1/register`, {
+	const response = await fetch(`${BASE_URL}/user/register`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
