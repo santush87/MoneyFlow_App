@@ -1,18 +1,19 @@
 package com.martin.aleksandrov.backend.models.dtos.view;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserViewDto {
 
-    private String id;
     private String firstName;
     private String lastName;
     private String email;
-    private LocalDate createdOn;
+    private String cratedOn;
 
 }

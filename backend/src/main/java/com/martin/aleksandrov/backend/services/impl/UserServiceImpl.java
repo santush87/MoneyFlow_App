@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
 
     @Override
+    @Transactional
     public AuthResponse register(UserRegistrationDto userRegistrationDto) throws BadRequestException {
         Optional<UserEntity> optionalUser = this.userRepository.findByEmail(userRegistrationDto.getEmail());
         if (optionalUser.isPresent()) {
@@ -67,16 +68,28 @@ public class UserServiceImpl implements UserService {
             UserEntity userEntity = this.userRepository.save(userToSave);
             String jwtToken = jwtService.generateToken(userEntity);
             String refreshToken = jwtService.generateRefreshToken(userEntity);
-            saveUserToken(userEntity, jwtToken);
-
-            return AuthResponse.builder()
-                    .accessToken(jwtToken)
-                    .refreshToken(refreshToken)
-                    .build();
+            return getAuthResponse(userEntity, jwtToken, refreshToken);
 
         } catch (Exception e) {
             throw new BadRequestException("Something went wrong" + e.getMessage());
         }
+    }
+
+    private AuthResponse getAuthResponse(UserEntity userEntity, String jwtToken, String refreshToken) {
+        saveUserToken(userEntity, jwtToken);
+
+        UserViewDto profile = UserViewDto.builder()
+                .firstName(userEntity.getFirstName())
+                .lastName(userEntity.getLastName())
+                .email(userEntity.getEmail())
+                .cratedOn(userEntity.getCreatedOn().toString())
+                .build();
+
+        return AuthResponse.builder()
+                .accessToken(jwtToken)
+                .profile(profile)
+                .refreshToken(refreshToken)
+                .build();
     }
 
     @Override
@@ -135,12 +148,7 @@ public class UserServiceImpl implements UserService {
         String refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
 
-        saveUserToken(user, jwtToken);
-
-        return AuthResponse.builder()
-                .accessToken(jwtToken)
-                .refreshToken(refreshToken)
-                .build();
+        return getAuthResponse(user, jwtToken, refreshToken);
     }
 
     private void revokeAllUserTokens(UserEntity user) {
@@ -179,7 +187,7 @@ public class UserServiceImpl implements UserService {
                 String accessToken = jwtService.generateToken(user);
                 revokeAllUserTokens(user);
                 saveUserToken(user, accessToken);
-                var authResponse = AuthResponse.builder()
+                AuthResponse authResponse = AuthResponse.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
                         .build();

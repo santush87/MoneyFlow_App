@@ -1,6 +1,7 @@
 package com.martin.aleksandrov.backend.token;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.martin.aleksandrov.backend.models.dtos.view.UserViewDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +18,9 @@ public class AuthResponse {
 
     @JsonProperty("refresh_token")
     private String refreshToken;
+
+    @JsonProperty("profile")
+    private UserViewDto profile;
+
 }
 
