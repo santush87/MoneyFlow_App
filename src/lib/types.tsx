@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { data } from "../components/charts/Donut";
+// import { data } from "../components/charts/Donut";
 
 
 export type IncomeOutcome = {

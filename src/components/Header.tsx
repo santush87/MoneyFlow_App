@@ -28,7 +28,7 @@ import {
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
 import { useAppDispatch, useAppSelector } from "../store/hooks.js";
-import { logout, selectAuth } from "../store/authSlice.js";
+import { logout, selectAuth } from "../store/auth-slice.js";
 import { BASE_URL } from "../constants/url.js";
 
 const products = [
