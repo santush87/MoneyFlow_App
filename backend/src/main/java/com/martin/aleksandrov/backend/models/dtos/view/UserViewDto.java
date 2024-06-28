@@ -14,6 +14,6 @@ public class UserViewDto {
     private String firstName;
     private String lastName;
     private String email;
-    private String cratedOn;
+    private String createdOn;
 
 }

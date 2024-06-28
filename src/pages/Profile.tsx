@@ -3,6 +3,7 @@ import { RootState } from "../store/store";
 
 export default function Profile() {
     const profile = useAppSelector((state: RootState) => state.profile);
+    console.log(profile);
 
     return (
         <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10">

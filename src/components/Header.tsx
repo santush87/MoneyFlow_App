@@ -78,7 +78,7 @@ export default function Header() {
   const [darkMode, setDarkMode] = useState(true);
 
   const isAuth = useAppSelector(selectAuth)
-  console.log("theAuth is " + isAuth)
+  // console.log("theAuth is " + isAuth)
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

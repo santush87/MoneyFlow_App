@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
                 .firstName(userEntity.getFirstName())
                 .lastName(userEntity.getLastName())
                 .email(userEntity.getEmail())
-                .cratedOn(userEntity.getCreatedOn().toString())
+                .createdOn(userEntity.getCreatedOn().toString())
                 .build();
 
         return AuthResponse.builder()
