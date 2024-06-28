@@ -127,11 +127,17 @@ export default function Header() {
 
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Link
-            to="/"
+            to="/home"
             className={`text-lg font-semibold leading-6 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
           >
             Home
           </Link>
+          {isAuth && <Link
+            to="/profile"
+            className={`text-lg font-semibold leading-6 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
+          >
+            Profile
+          </Link>}
           {!isAuth && <Link
             to="/register"
             className={`text-lg font-semibold leading-6 ${darkMode ? TEXT_COLOR_HEADER_FOOTER : TEXT_COLOR_HEADER_FOOTER_LIGHT}`}
@@ -187,7 +193,7 @@ export default function Header() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 <Link
-                  to="/"
+                  to="/home"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Home
