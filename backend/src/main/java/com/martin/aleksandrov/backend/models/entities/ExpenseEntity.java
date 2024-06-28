@@ -2,16 +2,14 @@ package com.martin.aleksandrov.backend.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "expense")
-@Setter
-@Getter
+@Data
 public class ExpenseEntity extends BaseEntity{
 
     @Column(unique = true, nullable = false)

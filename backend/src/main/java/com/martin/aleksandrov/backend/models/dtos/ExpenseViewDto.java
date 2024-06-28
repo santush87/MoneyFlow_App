@@ -1,10 +1,8 @@
 package com.martin.aleksandrov.backend.models.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class ExpenseViewDto {
 
     String id;

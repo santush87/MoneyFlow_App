@@ -2,16 +2,14 @@ package com.martin.aleksandrov.backend.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "category_type")
-@Setter
-@Getter
+@Data
 public class CategoryEntity extends BaseEntity{
 
     @Column(unique = true, nullable = false)
