@@ -5,11 +5,12 @@ import { useForm } from "react-hook-form";
 import { TRegisterSchema, registerSchema } from "../lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BASE_URL } from '../constants/url.ts';
-import { OauthToken, login } from '../store/auth-slice.ts';
+import { login } from '../store/auth-slice.tsx';
 import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../store/hooks';
+import { TokenAndProfile, addProfile } from '../store/profile-slice.tsx';
 
-async function registerUser(data: TRegisterSchema): Promise<OauthToken> {
+async function registerUser(data: TRegisterSchema): Promise<TokenAndProfile> {
 	const response = await fetch(`${BASE_URL}/user/register`, {
 		method: 'POST',
 		headers: {
@@ -21,7 +22,19 @@ async function registerUser(data: TRegisterSchema): Promise<OauthToken> {
 		const errorData = await response.json();
 		throw new Error(errorData.message || 'Authentication failed');
 	}
-	return response.json();
+	const result = await response.json();
+
+	if (!result.profile) {
+		throw new Error('Incomplete response PROFILE from server');
+	}
+	if (!result.access_token) {
+		throw new Error('Incomplete response TOKEN from server');
+	}
+
+	return {
+		token: result.access_token,
+		profile: result.profile
+	};
 }
 
 export default function Register() {
@@ -38,10 +51,14 @@ export default function Register() {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch()
 
-	const mutation = useMutation<OauthToken, Error, TRegisterSchema>({
+	// const theData = await registerUser
+	// console.log("Data are: " + theData);
+
+	const mutation = useMutation<TokenAndProfile, Error, TRegisterSchema>({
 		mutationFn: registerUser,
 		onSuccess: (data) => {
-			dispatch(login(data));
+			dispatch(login(data.token));
+			dispatch(addProfile(data.profile));
 			navigate("/home");
 		},
 		onError: (error: Error) => {

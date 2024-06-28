@@ -5,11 +5,12 @@ import { useForm } from "react-hook-form"
 import { TLoginSchema, loginSchema } from '../lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '../store/hooks';
-import { OauthToken, login } from '../store/auth-slice.ts';
+import { OauthToken, login } from '../store/auth-slice.tsx';
 import { useMutation } from "@tanstack/react-query";
 import { BASE_URL } from '../constants/url.ts';
+import { TokenAndProfile, addProfile } from '../store/profile-slice.tsx';
 
-async function authenticateUser(data: TLoginSchema): Promise<OauthToken> {
+async function authenticateUser(data: TLoginSchema): Promise<TokenAndProfile> {
     const response = await fetch(`${BASE_URL}/user/auth`, {
         method: 'POST',
         headers: {
@@ -23,8 +24,21 @@ async function authenticateUser(data: TLoginSchema): Promise<OauthToken> {
         throw new Error(errorData.message || 'Authentication failed');
     }
 
-    const responseBody = await response.text();
-    return responseBody ? JSON.parse(responseBody) : {};
+    const result = await response.json();
+
+    if (!result.profile) {
+        throw new Error('Incomplete response PROFILE from server');
+    }
+    if (!result.access_token) {
+        throw new Error('Incomplete response TOKEN from server');
+    }
+
+    return {
+        token: result.access_token,
+        profile: result.profile
+    };
+    // const responseBody = await response.text();
+    // return responseBody ? JSON.parse(responseBody) : {};
 }
 
 export default function Login() {
@@ -41,10 +55,11 @@ export default function Login() {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const mutation = useMutation<OauthToken, Error, TLoginSchema>({
+    const mutation = useMutation<TokenAndProfile, Error, TLoginSchema>({
         mutationFn: authenticateUser,
         onSuccess: (data) => {
-            dispatch(login(data));
+            dispatch(login(data.token));
+            dispatch(addProfile(data.profile));
             navigate("/home");
         },
         onError: (error: Error) => {

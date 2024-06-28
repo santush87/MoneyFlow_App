@@ -37,3 +37,20 @@ export const registerSchema = z.object({
     })
 
 export type TRegisterSchema = z.infer<typeof registerSchema>;
+
+export type Category = {
+    name: string;
+    description: string;
+    expenses: Expense[];
+};
+
+export type Expense = {
+    name: string;
+    description: string;
+    amounts: Amount[];
+};
+
+export type Amount = {
+    addedOn: Date;
+    amount: number;
+};

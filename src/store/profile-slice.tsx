@@ -1,36 +1,25 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { OauthToken } from "./auth-slice";
 
-type ProfileData = {
+export type ProfileData = {
   firstName: string;
   lastName: string;
   email: string;
   createdOn: string;
-  categories: Category[];
+  // categories: Category[];
 };
 
-type Category = {
-  name: string;
-  description: string;
-  expenses: Expense[];
-};
-
-type Expense = {
-  name: string;
-  description: string;
-  amounts: Amount[];
-};
-
-type Amount = {
-  addedOn: Date;
-  amount: number;
-};
+export type TokenAndProfile = {
+  token: OauthToken;
+  profile: ProfileData
+}
 
 const initialState: ProfileData = {
   firstName: "",
   lastName: "",
   email: "",
   createdOn: "",
-  categories: [],
+  // categories: [],
 };
 
 export const profileSlice = createSlice({
@@ -51,7 +40,7 @@ export const profileSlice = createSlice({
       state.email = action.payload.email;
       state.createdOn = action.payload.createdOn;
       // Assuming categories are empty on profile creation
-      state.categories = [];
+      // state.categories = [];
     },
     updateProfile(
       state,
