@@ -45,8 +45,7 @@ export default function Login() {
         mutationFn: authenticateUser,
         onSuccess: (data) => {
             dispatch(login(data));
-            console.log('Login successful:', data);
-            navigate("/");
+            navigate("/home");
         },
         onError: (error: Error) => {
             console.error('Login error:', error.message);

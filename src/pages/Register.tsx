@@ -42,8 +42,7 @@ export default function Register() {
 		mutationFn: registerUser,
 		onSuccess: (data) => {
 			dispatch(login(data));
-			console.log('Registration successful:', data);
-			navigate("/");
+			navigate("/home");
 		},
 		onError: (error: Error) => {
 			console.error('Registration error:', error.message);
