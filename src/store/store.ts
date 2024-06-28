@@ -1,7 +1,7 @@
 // src/store/store.ts
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth-slice";
-import { expenseSlice } from "./expense-slise";
+import { expenseSlice } from "./expense-slice";
 import { profileSlice } from "./profile-slice";
 
 const store = configureStore({

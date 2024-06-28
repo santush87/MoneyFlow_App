@@ -32,7 +32,7 @@ To run the project locally, follow these steps:
 3. Ensure MySQL is running locally or configure connection settings in the backend.
 4. Start the backend server.
 5. Start the frontend application.
-6. Access the app at `http://localhost:3000`.
+6. Access the app at `http://localhost:5173`.
 
 ## Contributing
 

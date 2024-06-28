@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { TLoginSchema, loginSchema } from '../lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '../store/hooks';
-import { OauthToken, login } from '../store/auth-slice.tsx';
+import { login } from '../store/auth-slice.tsx';
 import { useMutation } from "@tanstack/react-query";
 import { BASE_URL } from '../constants/url.ts';
 import { TokenAndProfile, addProfile } from '../store/profile-slice.tsx';
